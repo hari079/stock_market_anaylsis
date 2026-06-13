@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentix — Behavioral Finance Sentiment Dashboard</title>
+    <!-- Google Fonts: Inter & Outfit -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        
+        <!-- SIDEBAR (Styled exactly like Fianz sidebar) -->
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="brand-logo-circle">
+                    <i class="fa-solid fa-chart-line"></i>
+                </div>
+                <div class="brand-name">
+                    <h1>Sentix</h1>
+                </div>
+            </div>
+            
+            <div class="menu-label">Main Menu</div>
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active" data-tab="predictor">
+                    <i class="fa-solid fa-house"></i> Dashboard
+                </a>
+                <a href="#" class="nav-item" data-tab="batch">
+                    <i class="fa-solid fa-list-check"></i> Batch Predictor
+                </a>
+                <a href="#" class="nav-item" data-tab="insights">
+                    <i class="fa-solid fa-chart-pie"></i> Model Insights
+                </a>
+                <a href="#" class="nav-item" data-tab="explorer">
+                    <i class="fa-solid fa-database"></i> Dataset Explorer
+                </a>
+                <a href="#" class="nav-item" data-tab="console">
+                    <i class="fa-solid fa-terminal"></i> Pipeline Console
+                </a>
+            </nav>
+            
+            <div class="sidebar-spacer"></div>
+            
+            <!-- Upgrade Box (Styled like Fianz left bottom box) -->
+            <div class="upgrade-box">
+                <button class="upgrade-close-btn"><i class="fa-solid fa-xmark"></i></button>
+                <div class="upgrade-icon-wrapper">
+                    <i class="fa-solid fa-cube"></i>
+                </div>
+                <h4>Upgrade Model</h4>
+                <p>Train on more custom headlines to enhance pattern detection and signal accuracy.</p>
+                <button class="btn btn-primary btn-sm w-full" onclick="switchTab('console')">Retrain Pipeline</button>
+            </div>
+        </aside>
+
+        <!-- MAIN LAYOUT WRAPPER -->
+        <div class="layout-main">
+            
+            <!-- TOP BAR (Styled exactly like Fianz top bar) -->
+            <header class="top-bar">
+                <div class="search-wrapper">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="text" placeholder="Search for news headlines or keywords..." id="global-search">
+                </div>
+                <div class="top-bar-right">
+                    <div class="plan-badge">
+                        <i class="fa-solid fa-circle-check badge-icon-check"></i>
+                        <span>Premium Model</span>
+                    </div>
+                    <button class="icon-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    <button class="icon-btn notification-btn">
+                        <i class="fa-solid fa-bell"></i>
+                        <span class="notification-indicator"></span>
+                    </button>
+                    <div class="user-profile">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=100" alt="User Avatar" class="profile-img">
+                    </div>
+                </div>
+            </header>
+
+            <!-- VIEW PANELS CONTAINER -->
+            <main class="content-body">
+                
+                <!-- 1. TAB PANEL: DASHBOARD -->
+                <section class="panel active" id="panel-predictor">
+                    
+                    <!-- KPI Summary Cards Row (Fianz layout) -->
+                    <div class="kpi-grid">
+                        <div class="kpi-card">
+                            <div class="kpi-header">
+                                <span class="kpi-title">Model Accuracy</span>
+                                <div class="kpi-icon-container purple-glow">
+                                    <i class="fa-solid fa-chart-line-up"></i>
+                                </div>
+                            </div>
+                            <h2 class="kpi-value" id="model-accuracy-badge">96.67%</h2>
+                            <div class="kpi-trend trend-up">
+                                <i class="fa-solid fa-arrow-trend-up"></i>
+                                <span>+1.46%</span> <span class="trend-text">From last training</span>
+                            </div>
+                        </div>
+                        
+                        <div class="kpi-card">
+                            <div class="kpi-header">
+                                <span class="kpi-title">Total Headlines</span>
+                                <div class="kpi-icon-container orange-glow">
+                                    <i class="fa-solid fa-file-invoice"></i>
+                                </div>
+                            </div>
+                            <h2 class="kpi-value" id="dataset-size-badge">2,400</h2>
+                            <div class="kpi-trend trend-up">
+                                <i class="fa-solid fa-arrow-trend-up"></i>
+                                <span>+669</span> <span class="trend-text">Noisy samples pruned</span>
+                            </div>
+                        </div>
+
+                        <div class="kpi-card">
+                            <div class="kpi-header">
+                                <span class="kpi-title">Model Status</span>
+                                <div class="kpi-icon-container green-glow">
+                                    <i class="fa-solid fa-shield-halved"></i>
+                                </div>
+                            </div>
+                            <h2 class="kpi-value text-green" id="status-text">Active</h2>
+                            <div class="kpi-trend trend-stable">
+                                <span class="status-pulse-dot"></span>
+                                <span class="trend-text">Connected and ready</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Main Dashboard Grid (Fianz visual elements) -->
+                    <div class="dashboard-grid">
+                        <!-- Left Column: Input and suggestions -->
+                        <div class="grid-left-col">
+                            
+                            <!-- Banner Card (Styled like Fianz class promo card) -->
+                            <div class="banner-card">
+                                <div class="banner-content">
+                                    <h2>Behavioral Sentiment Analysis</h2>
+                                    <p>Scan news articles for cognitive errors, emotional panics, herd copycats, and bubble narratives in financial markets.</p>
+                                    <form id="single-predict-form">
+                                        <div class="banner-input-group">
+                                            <textarea id="headline-input" rows="3" placeholder="Enter headline text to analyze..." required></textarea>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">
+                                            Analyze Sentiment <i class="fa-solid fa-arrow-right"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                                <div class="banner-illustration">
+                                    <!-- Decorative 3D-like floating sphere stack -->
+                                    <div class="blob-sphere sphere-1"></div>
+                                    <div class="blob-sphere sphere-2"></div>
+                                    <div class="blob-sphere sphere-3"></div>
+                                </div>
+                            </div>
+
+                            <!-- Suggestions & Presets -->
+                            <div class="suggestions-card card">
+                                <div class="card-header">
+                                    <h3>Quick Test Presets</h3>
+                                    <p>Select predefined headlines representing key behavioral anomalies.</p>
+                                </div>
+                                <div class="card-body">
+                                    <div class="suggestions-list-fianz">
+                                        <button class="btn-suggestion">
+                                            <i class="fa-solid fa-circle-play suggestion-icon purple-text"></i>
+                                            <div class="suggestion-info">
+                                                <span class="suggestion-txt">Retail traders hold Bitcoin bags, refusing to realize paper losses</span>
+                                                <span class="suggestion-cat">Loss Aversion</span>
+                                            </div>
+                                        </button>
+                                        <button class="btn-suggestion">
+                                            <i class="fa-solid fa-circle-play suggestion-icon yellow-text"></i>
+                                            <div class="suggestion-info">
+                                                <span class="suggestion-txt">FOMO grips markets as retail crowd rushes into AI stocks at record highs</span>
+                                                <span class="suggestion-cat">FOMO</span>
+                                            </div>
+                                        </button>
+                                        <button class="btn-suggestion">
+                                            <i class="fa-solid fa-circle-play suggestion-icon orange-text"></i>
+                                            <div class="suggestion-info">
+                                                <span class="suggestion-txt">Exodus from oil funds gathers steam as herd dumps positions simultaneously</span>
+                                                <span class="suggestion-cat">Herd Behaviour</span>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Probability Distribution (Fianz saving goals bars) -->
+                            <div class="card prob-distribution-card">
+                                <div class="card-header">
+                                    <div class="flex-between">
+                                        <div>
+                                            <h3>Probability Distribution</h3>
+                                            <p>Class likelihood scores generated by the logistic regression classifier.</p>
+                                        </div>
+                                        <i class="fa-solid fa-ellipsis-vertical card-menu-icon"></i>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="prob-list" id="prob-distribution-list">
+                                        <!-- Populated dynamically by main.js -->
+                                        <div class="prob-item-placeholder">
+                                            <p>Awaiting analysis output...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Column: Active Result display -->
+                        <div class="grid-right-col">
+                            
+                            <!-- Prediction Dial / Details Card (Fianz "My Balance" card) -->
+                            <div class="card active-result-card" id="predictor-result-card">
+                                <div class="result-placeholder">
+                                    <i class="fa-solid fa-chart-pie placeholder-icon-fianz"></i>
+                                    <h4>Awaiting Input</h4>
+                                    <p>Submit a news headline on the left to review the active classification breakdown.</p>
+                                </div>
+                                <div class="result-display hidden">
+                                    <div class="result-header-fianz">
+                                        <h3>Active Prediction</h3>
+                                        <i class="fa-solid fa-ellipsis-vertical card-menu-icon"></i>
+                                    </div>
+                                    
+                                    <div class="dial-section">
+                                        <div class="circle-progress-wrapper">
+                                            <svg class="progress-ring" width="160" height="160">
+                                                <circle class="progress-ring-bg" stroke="#232533" stroke-width="12" fill="transparent" r="68" cx="80" cy="80" />
+                                                <circle class="progress-ring-fill" id="dial-ring" stroke="#6366f1" stroke-width="12" stroke-linecap="round" fill="transparent" r="68" cx="80" cy="80" stroke-dasharray="427.26" stroke-dashoffset="427.26" />
+                                            </svg>
+                                            <div class="dial-center">
+                                                <span class="dial-percentage" id="result-confidence">0%</span>
+                                                <span class="dial-label">Confidence</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="result-category-info">
+                                        <span class="result-label-badge" id="result-label">FOMO</span>
+                                        <p class="result-headline-text" id="result-headline">"Headline text will render here"</p>
+                                    </div>
+
+                                    <div class="theory-details-fianz">
+                                        <div class="detail-row">
+                                            <div class="detail-icon"><i class="fa-solid fa-lightbulb"></i></div>
+                                            <div class="detail-text">
+                                                <span class="detail-title">Meaning</span>
+                                                <span class="detail-value" id="result-meaning">Explanation text...</span>
+                                            </div>
+                                        </div>
+                                        <div class="detail-row">
+                                            <div class="detail-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+                                            <div class="detail-text">
+                                                <span class="detail-title">Economic Theory</span>
+                                                <span class="detail-value text-purple" id="result-theory">Academic paper...</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Recent Predictions Table (Fianz "Last Transaction" widget) -->
+                            <div class="card recent-predictions-card">
+                                <div class="card-header">
+                                    <div class="flex-between">
+                                        <h3>Recent Predictions</h3>
+                                        <span class="view-all-link">History</span>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="recent-list" id="recent-predictions-list">
+                                        <!-- Sample rows shown by default, updated by predict events -->
+                                        <div class="recent-row-item">
+                                            <div class="recent-left">
+                                                <div class="recent-icon-badge cog-bg"><i class="fa-solid fa-brain"></i></div>
+                                                <div class="recent-meta">
+                                                    <span class="recent-headline-trunc">Stocks shrug off oil supply shock, rally continues despite warnings</span>
+                                                    <span class="recent-date">2026-06-13</span>
+                                                </div>
+                                            </div>
+                                            <div class="recent-right">
+                                                <span class="recent-class-text font-cog">COG_DISSONANCE</span>
+                                                <span class="recent-conf-score">90.3%</span>
+                                            </div>
+                                        </div>
+                                        <div class="recent-row-item">
+                                            <div class="recent-left">
+                                                <div class="recent-icon-badge panic-bg"><i class="fa-solid fa-arrow-down-long"></i></div>
+                                                <div class="recent-meta">
+                                                    <span class="recent-headline-trunc">Bitcoin plunges 15% as panic selling grips crypto market</span>
+                                                    <span class="recent-date">2026-06-13</span>
+                                                </div>
+                                            </div>
+                                            <div class="recent-right">
+                                                <span class="recent-class-text font-panic">PANIC</span>
+                                                <span class="recent-conf-score">94.1%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 2. TAB PANEL: BATCH PROCESSOR -->
+                <section class="panel" id="panel-batch">
+                    <div class="card glass-card">
+                        <div class="card-header">
+                            <div class="flex-between">
+                                <div>
+                                    <h3>Batch Headline Processing</h3>
+                                    <p>Upload CSV spreadsheet files or paste semicolon-separated text matrices.</p>
+                                </div>
+                                <button class="btn btn-secondary btn-glow" id="btn-export-csv" disabled>
+                                    <i class="fa-solid fa-download"></i> Download Report
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="batch-inputs-grid">
+                                <!-- pasting input -->
+                                <div class="paste-area">
+                                    <div class="form-group">
+                                        <label for="batch-text-input">Semicolon-Separated List</label>
+                                        <textarea id="batch-text-input" rows="5" placeholder="Headline A; Headline B; Headline C..."></textarea>
+                                    </div>
+                                    <button class="btn btn-primary" id="btn-submit-batch-text">
+                                        Process Pasted Text
+                                    </button>
+                                </div>
+                                <!-- drag-drop file upload -->
+                                <div class="upload-area">
+                                    <label>Upload Spreadsheet Document</label>
+                                    <div class="drag-drop-zone" id="drag-drop-zone">
+                                        <i class="fa-solid fa-cloud-arrow-up upload-icon-fianz"></i>
+                                        <p>Drag and drop your CSV here, or <span class="file-browse">browse</span></p>
+                                        <input type="file" id="batch-file-input" accept=".csv" class="hidden">
+                                        <span class="file-name-label" id="file-name-label"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- loading spinner -->
+                            <div class="batch-progress hidden" id="batch-progress">
+                                <div class="spinner"></div>
+                                <span>Evaluating batch matrix...</span>
+                            </div>
+
+                            <!-- table outputs -->
+                            <div class="table-container-fianz hidden" id="batch-table-container">
+                                <h4>Evaluation Results Matrix</h4>
+                                <table class="fianz-table" id="batch-results-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Headline</th>
+                                            <th>Predicted Class</th>
+                                            <th>Confidence</th>
+                                            <th>Academic Theory</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- populated dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 3. TAB PANEL: MODEL INSIGHTS -->
+                <section class="panel" id="panel-insights">
+                    <div class="insights-grid">
+                        <div class="card chart-card">
+                            <div class="card-header">
+                                <h3>Label Distribution</h3>
+                                <p>Volume breakdown of each behavioral bias category inside the augmented corpus.</p>
+                            </div>
+                            <div class="card-body chart-img-container">
+                                <img src="/api/charts/label_distribution" alt="Label Distribution" class="insights-chart" id="chart-label-dist">
+                            </div>
+                        </div>
+
+                        <div class="card chart-card">
+                            <div class="card-header">
+                                <h3>Sentiment Proportions</h3>
+                                <p>Proportion of behavioral bias signals versus neutral market updates.</p>
+                            </div>
+                            <div class="card-body chart-img-container">
+                                <img src="/api/charts/sentiment_pie" alt="Sentiment Proportions" class="insights-chart" id="chart-sentiment-pie">
+                            </div>
+                        </div>
+
+                        <div class="card chart-card full-width-card">
+                            <div class="card-header">
+                                <h3>Model Confusion Matrix</h3>
+                                <p>Class classification errors mapped across prediction trials.</p>
+                            </div>
+                            <div class="card-body chart-img-container">
+                                <img src="/api/charts/confusion_matrix" alt="Model Confusion Matrix" class="insights-chart" id="chart-confusion-matrix">
+                            </div>
+                        </div>
+
+                        <div class="card chart-card full-width-card">
+                            <div class="card-header">
+                                <h3>Top Predictive Keywords</h3>
+                                <p>Strongest TF-IDF coefficient features associated with each classification target.</p>
+                            </div>
+                            <div class="card-body chart-img-container">
+                                <img src="/api/charts/top_keywords" alt="Top Predictive Keywords" class="insights-chart" id="chart-top-keywords">
+                            </div>
+                        </div>
+
+                        <div class="card chart-card full-width-card">
+                            <div class="card-header">
+                                <h3>Four-Phase Behavioural Cycle</h3>
+                                <p>Chronological mapping of market cycles under structural sentiment stresses.</p>
+                            </div>
+                            <div class="card-body chart-img-container">
+                                <img src="/api/charts/phase_timeline" alt="Four-Phase Behavioural Cycle" class="insights-chart" id="chart-phase-timeline">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 4. TAB PANEL: DATASET EXPLORER (Styled exactly like saving plans manager table) -->
+                <section class="panel" id="panel-explorer">
+                    <div class="explorer-grid">
+                        
+                        <!-- Left 2 Columns: Table Explorer -->
+                        <div class="card explorer-main-card">
+                            <div class="card-header">
+                                <div class="flex-between">
+                                    <div>
+                                        <h3>Manage Training Headlines</h3>
+                                        <p>Review, search, and verify the balanced headlines currently stored in the training set.</p>
+                                    </div>
+                                    <div class="table-menu-trigger">
+                                        <i class="fa-solid fa-ellipsis card-menu-icon"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="explorer-filters-row">
+                                    <div class="search-wrapper flex-fill">
+                                        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                                        <input type="text" id="explorer-search" placeholder="Search dataset by headline text...">
+                                    </div>
+                                    <div class="filter-select-wrapper">
+                                        <select id="explorer-filter-label">
+                                            <option value="">All Categories</option>
+                                            <option value="FOMO">FOMO</option>
+                                            <option value="HERD">HERD</option>
+                                            <option value="PANIC">PANIC</option>
+                                            <option value="LOSS_AVERSION">LOSS AVERSION</option>
+                                            <option value="COGNITIVE_DISSONANCE">COGNITIVE DISSONANCE</option>
+                                            <option value="NEUTRAL">NEUTRAL</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="table-container-fianz">
+                                    <table class="fianz-table" id="explorer-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Headline Name</th>
+                                                <th>Data Source</th>
+                                                <th>True Category</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Dynamically populated -->
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="pagination-bar-fianz">
+                                    <button class="btn btn-secondary btn-sm" id="btn-explorer-prev">
+                                        <i class="fa-solid fa-angle-left"></i> Previous
+                                    </button>
+                                    <span class="pagination-info" id="explorer-page-info">Page 1 of --</span>
+                                    <button class="btn btn-secondary btn-sm" id="btn-explorer-next">
+                                        Next <i class="fa-solid fa-angle-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Column: Add sample -->
+                        <div class="card explorer-add-card">
+                            <div class="card-header">
+                                <h3>Direct Augmentation</h3>
+                                <p>Help improve model precision by manually adding new labeled headlines directly to the training corpus.</p>
+                            </div>
+                            <div class="card-body">
+                                <form id="add-sample-form">
+                                    <div class="form-group">
+                                        <label for="new-headline-input">Headline Text</label>
+                                        <textarea id="new-headline-input" rows="4" placeholder="Enter headline..." required></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="new-label-select">True Behavioral Category</label>
+                                        <select id="new-label-select" required>
+                                            <option value="" disabled selected>Select category...</option>
+                                            <option value="FOMO">FOMO (Fear of Missing Out)</option>
+                                            <option value="HERD">HERD (Herd Behaviour)</option>
+                                            <option value="PANIC">PANIC (Panic Selling / Rout)</option>
+                                            <option value="LOSS_AVERSION">LOSS_AVERSION (Refusal to cut loss)</option>
+                                            <option value="COGNITIVE_DISSONANCE">COGNITIVE_DISSONANCE (Ignoring bad news)</option>
+                                            <option value="NEUTRAL">NEUTRAL (Factual price report)</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary w-full">
+                                        <i class="fa-solid fa-plus"></i> Augment Training Set
+                                    </button>
+                                </form>
+                                <div id="add-sample-message" class="alert hidden"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 5. TAB PANEL: PIPELINE CONSOLE -->
+                <section class="panel" id="panel-console">
+                    <div class="card console-card">
+                        <div class="card-header">
+                            <div class="flex-between">
+                                <div>
+                                    <h3>Model Pipeline Management</h3>
+                                    <p>Monitor and execute the end-to-end scraper, augmentor, and retraining tasks in real time.</p>
+                                </div>
+                                <button class="btn btn-primary btn-glow" id="btn-run-pipeline">
+                                    <i class="fa-solid fa-play"></i> Trigger Pipeline Retrain
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="console-box-wrapper-fianz">
+                                <div class="console-header-fianz">
+                                    <span class="console-dot-fianz dot-red"></span>
+                                    <span class="console-dot-fianz dot-yellow"></span>
+                                    <span class="console-dot-fianz dot-green"></span>
+                                    <span class="console-title-fianz">Pipeline Logs Output</span>
+                                    <button class="btn-clear-console-fianz" id="btn-clear-logs">
+                                        <i class="fa-solid fa-trash-can"></i> Clear logs
+                                    </button>
+                                </div>
+                                <pre class="console-content-fianz" id="console-logs">System initialized. Awaiting pipeline start...</pre>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Custom JS -->
+    <script src="/static/js/main.js"></script>
+</body>
+</html>

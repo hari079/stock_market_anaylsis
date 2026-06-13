@@ -1,0 +1,1395 @@
+/* ==========================================================================
+   Sentix CSS Core Theme & Layout (Fianz Dark-Mode Mirror Design)
+   ========================================================================== */
+
+:root {
+    --bg-main: #0c0d14;         /* Super deep slate-black background */
+    --bg-sidebar: #12131c;      /* Floating sidebar dark background */
+    --bg-card: #181924;         /* Fianz sleek card background */
+    --bg-input: #1f202e;        /* Input background */
+    --bg-accent-subtle: #232537;
+    
+    --border-color: #232535;    /* Crisp card border */
+    --border-hover: #31344a;    /* Highlight border on hover */
+    
+    --text-primary: #ffffff;    /* High-contrast headings */
+    --text-secondary: #8e90a0;  /* Secondary text label */
+    --text-muted: #5e6073;      /* Muted tags */
+    
+    /* Brand Accents */
+    --accent-purple: #6366f1;   /* Primary Fianz purple */
+    --accent-purple-glow: rgba(99, 102, 241, 0.4);
+    
+    /* Category Colors matching the Fianz UI theme colors */
+    --color-fomo: #f59e0b;       /* Amber */
+    --color-herd: #ea580c;       /* Orange */
+    --color-panic: #ef4444;      /* Red */
+    --color-loss: #ec4899;       /* Pink */
+    --color-cog: #8b5cf6;        /* Purple */
+    --color-neutral: #10b981;    /* Emerald Green */
+    
+    --font-heading: 'Outfit', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    
+    --transition-fast: 0.2s ease;
+    --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Global Reset & Box Sizing */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    min-height: 100vh;
+    overflow-x: hidden;
+    display: flex;
+}
+
+/* Main Container: Sidebar + Page Content */
+.app-container {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    padding: 24px;              /* Floating application layout */
+    gap: 24px;
+}
+
+/* ==========================================================================
+   SIDEBAR (Floating Panel with Rounded Corners)
+   ========================================================================== */
+.sidebar {
+    width: 280px;
+    background-color: var(--bg-sidebar);
+    border: 1px solid var(--border-color);
+    border-radius: 24px;
+    padding: 32px 24px;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    overflow-y: auto;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 40px;
+}
+
+.brand-logo-circle {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent-purple), #4f46e5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 14px var(--accent-purple-glow);
+}
+
+.brand-logo-circle i {
+    color: white;
+    font-size: 18px;
+}
+
+.brand-name h1 {
+    font-family: var(--font-heading);
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--text-primary);
+    letter-spacing: -0.5px;
+}
+
+.menu-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+    padding-left: 12px;
+}
+
+.nav-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 14px;
+    padding: 14px 18px;
+    border-radius: 14px;
+    transition: var(--transition-fast);
+}
+
+.nav-item i {
+    font-size: 18px;
+    width: 20px;
+    text-align: center;
+}
+
+.nav-item:hover {
+    color: var(--text-primary);
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+.nav-item.active {
+    color: white;
+    background-color: var(--accent-purple);
+    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+    font-weight: 600;
+}
+
+.sidebar-spacer {
+    flex-grow: 1;
+}
+
+/* Upgrade Card (Fianz-like bottom element) */
+.upgrade-box {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+    margin-top: 24px;
+}
+
+.upgrade-close-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 14px;
+    transition: var(--transition-fast);
+}
+
+.upgrade-close-btn:hover {
+    color: var(--text-primary);
+}
+
+.upgrade-icon-wrapper {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background-color: rgba(99, 102, 241, 0.1);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px auto;
+}
+
+.upgrade-icon-wrapper i {
+    color: var(--accent-purple);
+    font-size: 18px;
+}
+
+.upgrade-box h4 {
+    font-family: var(--font-heading);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+}
+
+.upgrade-box p {
+    font-size: 11px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 16px;
+}
+
+/* ==========================================================================
+   LAYOUT MAIN CONTENT (Right Side)
+   ========================================================================== */
+.layout-main {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-width: 0;
+}
+
+/* Top Header / Navigation Bar */
+.top-bar {
+    height: 70px;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    flex-shrink: 0;
+}
+
+.search-wrapper {
+    position: relative;
+    width: 400px;
+}
+
+.search-icon {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+.search-wrapper input {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    padding: 12px 16px 12px 46px;
+    color: var(--text-primary);
+    width: 100%;
+    outline: none;
+    font-size: 13px;
+    transition: var(--transition-fast);
+}
+
+.search-wrapper input:focus {
+    border-color: var(--border-hover);
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.02);
+}
+
+.top-bar-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.plan-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #272115;
+    border: 1px solid #bf913b;
+    border-radius: 12px;
+    padding: 8px 16px;
+    color: #ffd785;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.badge-icon-check {
+    color: #f59e0b;
+}
+
+.icon-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition-fast);
+    position: relative;
+}
+
+.icon-btn:hover {
+    border-color: var(--border-hover);
+    background-color: rgba(255, 255, 255, 0.02);
+}
+
+.notification-indicator {
+    width: 8px;
+    height: 8px;
+    background-color: var(--color-panic);
+    border-radius: 50%;
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    border: 1.5px solid var(--bg-card);
+}
+
+.user-profile {
+    cursor: pointer;
+}
+
+.profile-img {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    object-fit: cover;
+    border: 1.5px solid var(--border-color);
+}
+
+/* Panel Containers */
+.content-body {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+.panel {
+    display: none;
+    animation: slideUp 0.4s cubic-bezier(0.1, 0.8, 0.3, 1);
+}
+
+.panel.active {
+    display: block;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================================================
+   KPI SUMMARY CARDS ROW
+   ========================================================================== */
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.kpi-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+}
+
+.kpi-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.kpi-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.kpi-icon-container {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.kpi-icon-container i {
+    font-size: 16px;
+}
+
+.purple-glow {
+    background-color: rgba(99, 102, 241, 0.1);
+    color: var(--accent-purple);
+}
+
+.orange-glow {
+    background-color: rgba(249, 115, 22, 0.1);
+    color: var(--color-herd);
+}
+
+.green-glow {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: var(--color-neutral);
+}
+
+.kpi-value {
+    font-family: var(--font-heading);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+    letter-spacing: -0.5px;
+}
+
+.text-green {
+    color: var(--color-neutral) !important;
+}
+
+.kpi-trend {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.trend-up {
+    color: var(--color-neutral);
+}
+
+.trend-text {
+    color: var(--text-secondary);
+    font-weight: 400;
+}
+
+.trend-stable {
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.status-pulse-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--color-neutral);
+    box-shadow: 0 0 6px var(--color-neutral);
+    animation: statusPulse 1.8s infinite;
+}
+
+@keyframes statusPulse {
+    0% { transform: scale(0.95); opacity: 0.6; }
+    50% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(0.95); opacity: 0.6; }
+}
+
+/* ==========================================================================
+   DASHBOARD CARD GRID LAYOUT
+   ========================================================================== */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 24px;
+}
+
+.grid-left-col, .grid-right-col {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* ==========================================================================
+   CARDS & CONTAINERS
+   ========================================================================== */
+.card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 24px;
+    padding: 28px;
+    overflow: hidden;
+}
+
+.card-header h3 {
+    font-family: var(--font-heading);
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.card-header p {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+}
+
+.card-body {
+    margin-top: 20px;
+}
+
+.flex-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-menu-icon {
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 14px;
+    transition: var(--transition-fast);
+}
+
+.card-menu-icon:hover {
+    color: var(--text-primary);
+}
+
+/* ==========================================================================
+   PROMO/INPUT BANNER CARD (Fianz Class card representation)
+   ========================================================================== */
+.banner-card {
+    background: linear-gradient(135deg, #4f46e5, var(--accent-purple));
+    border-radius: 24px;
+    padding: 32px;
+    display: flex;
+    position: relative;
+    overflow: hidden;
+    min-height: 250px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.banner-content {
+    flex: 1;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.banner-content h2 {
+    font-family: var(--font-heading);
+    font-size: 24px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+}
+
+.banner-content p {
+    font-size: 12.5px;
+    color: #e0e0ff;
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+.banner-input-group {
+    margin-bottom: 16px;
+}
+
+.banner-input-group textarea {
+    background-color: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    color: white;
+    font-family: var(--font-body);
+    font-size: 13.5px;
+    padding: 12px;
+    resize: none;
+    outline: none;
+    width: 100%;
+    transition: var(--transition-fast);
+}
+
+.banner-input-group textarea:focus {
+    border-color: white;
+    background-color: rgba(0, 0, 0, 0.35);
+}
+
+.banner-input-group textarea::placeholder {
+    color: #b0b5e3;
+}
+
+.btn-primary {
+    background-color: white;
+    color: #4f46e5;
+    font-weight: 600;
+    font-size: 13px;
+    border-radius: 10px;
+    border: none;
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+}
+
+/* Abstract 3D Spheres in CSS */
+.banner-illustration {
+    position: absolute;
+    right: -20px;
+    bottom: -20px;
+    width: 200px;
+    height: 200px;
+    z-index: 1;
+}
+
+.blob-sphere {
+    border-radius: 50%;
+    position: absolute;
+    filter: blur(1px);
+}
+
+.sphere-1 {
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle at 30% 30%, #a5b4fc, #4f46e5);
+    right: 30px;
+    bottom: 30px;
+    box-shadow: -10px 10px 30px rgba(0,0,0,0.3);
+}
+
+.sphere-2 {
+    width: 70px;
+    height: 70px;
+    background: radial-gradient(circle at 30% 30%, #fef08a, #ca8a04);
+    right: 120px;
+    bottom: 90px;
+    box-shadow: -6px 6px 20px rgba(0,0,0,0.25);
+}
+
+.sphere-3 {
+    width: 50px;
+    height: 50px;
+    background: radial-gradient(circle at 30% 30%, #a7f3d0, #059669);
+    right: 20px;
+    bottom: 110px;
+    box-shadow: -4px 4px 15px rgba(0,0,0,0.2);
+}
+
+/* ==========================================================================
+   QUICK SUGGESTIONS PRESETS (Fianz Lists representation)
+   ========================================================================== */
+.suggestions-list-fianz {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.btn-suggestion {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background-color: rgba(255, 255, 255, 0.01);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 14px 18px;
+    width: 100%;
+    cursor: pointer;
+    text-align: left;
+    transition: var(--transition-fast);
+}
+
+.btn-suggestion:hover {
+    background-color: rgba(255, 255, 255, 0.03);
+    border-color: var(--border-hover);
+    transform: translateX(3px);
+}
+
+.suggestion-icon {
+    font-size: 20px;
+}
+
+.purple-text { color: var(--accent-purple); }
+.yellow-text { color: var(--color-fomo); }
+.orange-text { color: var(--color-herd); }
+
+.suggestion-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.suggestion-txt {
+    font-size: 13px;
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.suggestion-cat {
+    font-size: 10px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* ==========================================================================
+   PROBABILITY DISTRIBUTION
+   ========================================================================== */
+.prob-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.prob-item-placeholder {
+    padding: 20px;
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 13px;
+}
+
+.prob-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.prob-name-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+}
+
+.prob-class {
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+.prob-value {
+    color: var(--text-primary);
+    font-weight: 700;
+}
+
+.prob-bar-track {
+    height: 8px;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.07);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.prob-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.8s cubic-bezier(0.1, 0.8, 0.3, 1);
+    width: 0%;
+}
+
+/* Gradients for clean visual progress */
+.prob-bar-fill.fomo { background: linear-gradient(90deg, #facc15, #eab308); }
+.prob-bar-fill.herd { background: linear-gradient(90deg, #f97316, #ea580c); }
+.prob-bar-fill.panic { background: linear-gradient(90deg, #f87171, #ef4444); }
+.prob-bar-fill.loss_aversion { background: linear-gradient(90deg, #f472b6, #ec4899); }
+.prob-bar-fill.cognitive_dissonance { background: linear-gradient(90deg, #c084fc, #a855f7); }
+.prob-bar-fill.neutral { background: linear-gradient(90deg, #34d399, #10b981); }
+
+/* ==========================================================================
+   ACTIVE RESULT & DIAL DISPLAY (Fianz "My Balance" Widget)
+   ========================================================================== */
+.active-result-card {
+    min-height: 380px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.result-placeholder-icon-fianz {
+    font-size: 40px;
+    color: var(--text-muted);
+}
+
+.result-header-fianz h3 {
+    font-family: var(--font-heading);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.dial-section {
+    display: flex;
+    justify-content: center;
+    margin: 24px 0;
+}
+
+.circle-progress-wrapper {
+    position: relative;
+    width: 160px;
+    height: 160px;
+}
+
+.progress-ring-fill {
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+    transition: stroke-dashoffset 0.8s cubic-bezier(0.1, 0.8, 0.3, 1);
+}
+
+.dial-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.dial-percentage {
+    font-family: var(--font-heading);
+    font-size: 26px;
+    font-weight: 800;
+    color: white;
+}
+
+.dial-label {
+    font-size: 10px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 2px;
+}
+
+.result-category-info {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.result-label-badge {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: white;
+    background-color: var(--text-muted);
+    margin-bottom: 12px;
+}
+
+.result-label-badge.fomo { background-color: var(--color-fomo); }
+.result-label-badge.herd { background-color: var(--color-herd); }
+.result-label-badge.panic { background-color: var(--color-panic); }
+.result-label-badge.loss_aversion { background-color: var(--color-loss); }
+.result-label-badge.cognitive_dissonance { background-color: var(--color-cog); }
+.result-label-badge.neutral { background-color: var(--color-neutral); }
+
+.result-headline-text {
+    font-size: 14px;
+    font-style: italic;
+    color: var(--text-primary);
+    line-height: 1.4;
+    max-width: 90%;
+    margin: 0 auto;
+}
+
+.theory-details-fianz {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    border-top: 1px solid var(--border-color);
+    padding-top: 20px;
+}
+
+.detail-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.detail-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+.detail-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.detail-title {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.detail-value {
+    font-size: 13px;
+    color: var(--text-primary);
+}
+
+.text-purple {
+    color: #a5b4fc !important;
+    font-weight: 600;
+}
+
+/* ==========================================================================
+   RECENT PREDICTIONS HISTORY (Fianz "Last Transaction" widget)
+   ========================================================================== */
+.recent-predictions-card {
+    flex-grow: 1;
+}
+
+.view-all-link {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent-purple);
+    cursor: pointer;
+}
+
+.recent-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.recent-row-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+.recent-row-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.recent-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+}
+
+.recent-icon-badge {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.recent-icon-badge i {
+    font-size: 14px;
+}
+
+.cog-bg { background-color: rgba(139, 92, 246, 0.1); color: var(--color-cog); }
+.panic-bg { background-color: rgba(239, 68, 68, 0.1); color: var(--color-panic); }
+.fomo-bg { background-color: rgba(245, 158, 11, 0.1); color: var(--color-fomo); }
+.herd-bg { background-color: rgba(234, 88, 12, 0.1); color: var(--color-herd); }
+.loss-bg { background-color: rgba(236, 72, 153, 0.1); color: var(--color-loss); }
+.neutral-bg { background-color: rgba(16, 185, 129, 0.1); color: var(--color-neutral); }
+
+.recent-meta {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.recent-headline-trunc {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.recent-date {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 2px;
+}
+
+.recent-right {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex-shrink: 0;
+}
+
+.recent-class-text {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.font-cog { color: var(--color-cog); }
+.font-panic { color: var(--color-panic); }
+.font-fomo { color: var(--color-fomo); }
+.font-herd { color: var(--color-herd); }
+.font-loss { color: var(--color-loss); }
+.font-neutral { color: var(--color-neutral); }
+
+.recent-conf-score {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+/* ==========================================================================
+   TABLE DESIGN (Fianz high-fidelity layouts)
+   ========================================================================== */
+.table-container-fianz {
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 20px;
+}
+
+.fianz-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.fianz-table th {
+    padding: 16px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    border-bottom: 1.5px solid var(--border-color);
+    letter-spacing: 0.5px;
+}
+
+.fianz-table td {
+    padding: 16px;
+    font-size: 13px;
+    color: var(--text-primary);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+.fianz-table tbody tr {
+    transition: var(--transition-fast);
+}
+
+.fianz-table tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.015);
+}
+
+/* Colored status badges for table columns */
+.table-label-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: white;
+}
+
+.table-label-badge.fomo { background-color: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+.table-label-badge.herd { background-color: rgba(234, 88, 12, 0.15); color: #fb923c; border: 1px solid rgba(234, 88, 12, 0.3); }
+.table-label-badge.panic { background-color: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+.table-label-badge.loss_aversion { background-color: rgba(236, 72, 153, 0.15); color: #f472b6; border: 1px solid rgba(236, 72, 153, 0.3); }
+.table-label-badge.cognitive_dissonance { background-color: rgba(139, 92, 246, 0.15); color: #c084fc; border: 1px solid rgba(139, 92, 246, 0.3); }
+.table-label-badge.neutral { background-color: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+
+/* ==========================================================================
+   BATCH PROCESSOR / FILE DROP
+   ========================================================================== */
+.batch-inputs-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-bottom: 24px;
+}
+
+.paste-area, .upload-area {
+    display: flex;
+    flex-direction: column;
+}
+
+.drag-drop-zone {
+    border: 2px dashed var(--border-color);
+    border-radius: 20px;
+    padding: 40px;
+    text-align: center;
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.005);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    transition: var(--transition-fast);
+}
+
+.drag-drop-zone:hover, .drag-drop-zone.dragover {
+    border-color: var(--accent-purple);
+    background-color: rgba(99, 102, 241, 0.02);
+}
+
+.upload-icon-fianz {
+    font-size: 38px;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+    transition: var(--transition-fast);
+}
+
+.drag-drop-zone:hover .upload-icon-fianz {
+    color: var(--accent-purple);
+}
+
+.drag-drop-zone p {
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.file-browse {
+    color: var(--accent-purple);
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+.btn-secondary {
+    background-color: rgba(255, 255, 255, 0.03);
+    color: white;
+    border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+    background-color: rgba(255, 255, 255, 0.06);
+    border-color: var(--border-hover);
+}
+
+/* ==========================================================================
+   INSIGHTS PANEL & IMAGES
+   ========================================================================== */
+.insights-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+.full-width-card {
+    grid-column: span 2;
+}
+
+.chart-card {
+    background-color: var(--bg-card);
+    border-radius: 24px;
+}
+
+.chart-img-container {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    padding: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.insights-chart {
+    max-width: 100%;
+    max-height: 480px;
+    object-fit: contain;
+    border-radius: 8px;
+    transition: transform 0.25s ease;
+}
+
+.insights-chart:hover {
+    transform: scale(1.005);
+}
+
+/* ==========================================================================
+   DATASET EXPLORER & FILTERS
+   ========================================================================== */
+.explorer-grid {
+    display: grid;
+    grid-template-columns: 1.35fr 0.65fr;
+    gap: 24px;
+}
+
+.explorer-filters-row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.filter-select-wrapper select {
+    background-color: var(--bg-input);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    color: var(--text-primary);
+    padding: 12px 20px;
+    font-size: 13px;
+    outline: none;
+    cursor: pointer;
+}
+
+.pagination-bar-fianz {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border-color);
+    padding-top: 20px;
+    margin-top: 20px;
+}
+
+.pagination-info {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+/* ==========================================================================
+   PIPELINE CONSOLE (Fianz terminal emulation)
+   ========================================================================== */
+.console-box-wrapper-fianz {
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-console);
+    box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.8);
+    overflow: hidden;
+}
+
+.console-header-fianz {
+    background-color: rgba(255, 255, 255, 0.01);
+    border-bottom: 1px solid var(--border-color);
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.console-dot-fianz {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.dot-red { background-color: #ef4444; }
+.dot-yellow { background-color: #f5a623; }
+.dot-green { background-color: #10b981; }
+
+.console-title-fianz {
+    font-family: var(--font-heading);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-left: 8px;
+    flex-grow: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-clear-console-fianz {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-fast);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-clear-console-fianz:hover {
+    color: var(--text-primary);
+}
+
+.console-content-fianz {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 13px;
+    color: #e2e8f0;
+    padding: 24px;
+    margin: 0;
+    min-height: 400px;
+    max-height: 550px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    line-height: 1.6;
+}
+
+/* ==========================================================================
+   FORM CONTROLS (Fianz input styling)
+   ========================================================================== */
+.form-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+textarea, select {
+    background-color: var(--bg-input);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 13.5px;
+    padding: 12px 16px;
+    outline: none;
+    transition: var(--transition-fast);
+    width: 100%;
+}
+
+textarea:focus, select:focus {
+    border-color: var(--accent-purple);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+.alert {
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-size: 13px;
+    margin-top: 16px;
+}
+
+.alert-success {
+    background-color: rgba(16, 185, 129, 0.12);
+    border: 1px solid rgba(16, 185, 129, 0.25);
+    color: #34d399;
+}
+
+.alert-error {
+    background-color: rgba(239, 68, 68, 0.12);
+    border: 1px solid rgba(239, 68, 68, 0.25);
+    color: #f87171;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.w-full { width: 100%; }
+.flex-fill { flex-grow: 1; }
+
+/* ==========================================================================
+   RESPONSIVENESS & MEDIA QUERIES
+   ========================================================================== */
+@media (max-width: 1280px) {
+    .app-container {
+        flex-direction: column;
+        overflow-y: auto;
+        height: auto;
+    }
+    .sidebar {
+        width: 100%;
+        height: auto;
+    }
+    .kpi-grid {
+        grid-template-columns: 1fr;
+    }
+    .dashboard-grid, .explorer-grid, .batch-inputs-grid, .insights-grid {
+        grid-template-columns: 1fr;
+    }
+    .full-width-card {
+        grid-column: span 1;
+    }
+}

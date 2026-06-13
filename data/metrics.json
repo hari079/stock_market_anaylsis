@@ -1,0 +1,56 @@
+{
+    "accuracy": 0.9666666666666667,
+    "classification_report_text": "                      precision    recall  f1-score   support\n\nCOGNITIVE_DISSONANCE       0.99      0.99      0.99        80\n                FOMO       0.96      0.99      0.98        80\n                HERD       0.98      0.99      0.98        80\n       LOSS_AVERSION       0.94      0.93      0.93        80\n             NEUTRAL       1.00      0.99      0.99        80\n               PANIC       0.94      0.93      0.93        80\n\n            accuracy                           0.97       480\n           macro avg       0.97      0.97      0.97       480\n        weighted avg       0.97      0.97      0.97       480\n",
+    "class_metrics": {
+        "COGNITIVE_DISSONANCE": {
+            "precision": 0.9875,
+            "recall": 0.9875,
+            "f1-score": 0.9875,
+            "support": 80.0
+        },
+        "FOMO": {
+            "precision": 0.9634146341463414,
+            "recall": 0.9875,
+            "f1-score": 0.9753086419753086,
+            "support": 80.0
+        },
+        "HERD": {
+            "precision": 0.9753086419753086,
+            "recall": 0.9875,
+            "f1-score": 0.9813664596273292,
+            "support": 80.0
+        },
+        "LOSS_AVERSION": {
+            "precision": 0.9367088607594937,
+            "recall": 0.925,
+            "f1-score": 0.9308176100628931,
+            "support": 80.0
+        },
+        "NEUTRAL": {
+            "precision": 1.0,
+            "recall": 0.9875,
+            "f1-score": 0.9937106918238994,
+            "support": 80.0
+        },
+        "PANIC": {
+            "precision": 0.9367088607594937,
+            "recall": 0.925,
+            "f1-score": 0.9308176100628931,
+            "support": 80.0
+        },
+        "accuracy": 0.9666666666666667,
+        "macro avg": {
+            "precision": 0.9666068329401062,
+            "recall": 0.9666666666666667,
+            "f1-score": 0.9665868355920538,
+            "support": 480.0
+        },
+        "weighted avg": {
+            "precision": 0.9666068329401063,
+            "recall": 0.9666666666666667,
+            "f1-score": 0.9665868355920539,
+            "support": 480.0
+        }
+    },
+    "dataset_size": 2400
+}

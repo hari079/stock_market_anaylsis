@@ -1,0 +1,29 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+
+# Model file (large binary)
+model.pkl
+
+# Data files (optional — comment out if you want to include data)
+# data/raw_headlines.csv
+# data/labelled_headlines.csv
+
+# Environment
+.env
+venv/
+env/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
