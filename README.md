@@ -10,7 +10,7 @@ A machine learning system that classifies financial news headlines into **6 beha
 
 This project scrapes live financial headlines from Google News, labels them using behavioral finance theory, trains a TF-IDF + Logistic Regression classifier, and serves a professional web dashboard for real-time behavioral sentiment analysis.
 
-**Model Accuracy: 96.67%** across 2,400 balanced headlines.
+**Model Accuracy: 97.29%** across 24,000 balanced headlines.
 
 ---
 
@@ -38,8 +38,8 @@ sentiment_stock_anaylzer/
 ├── 04_predict.py         # CLI prediction interface
 ├── 05_charts.py          # Visualization generator
 ├── auto_label.py         # Rule-based keyword auto-labeler
-├── augment_data.py       # Template-based dataset augmentation
-├── app.py                # Flask web dashboard (backend + frontend)
+├── process_large_dataset.py # Scale, clean, and balance dataset (blends historical & live data)
+├── app.py                # Flask web dashboard (backend + frontend with live correction loop)
 │
 ├── data/
 │   ├── raw_headlines.csv         # Scraped raw headlines
@@ -71,9 +71,9 @@ pip install -r requirements.txt
 python 01_scrape.py
 ```
 
-### 3. Augment & Balance Dataset
+### 3. Process, Scale & Balance Dataset
 ```bash
-python augment_data.py
+python process_large_dataset.py
 ```
 
 ### 4. Train the Model
@@ -93,13 +93,13 @@ Then open: **http://localhost:5000**
 
 | Class | Precision | Recall | F1-Score |
 |---|---|---|---|
-| COGNITIVE_DISSONANCE | 98.8% | 98.8% | 98.8% |
-| FOMO | 96.3% | 98.8% | 97.5% |
-| HERD | 97.5% | 98.8% | 98.1% |
-| LOSS_AVERSION | 93.7% | 92.5% | 93.1% |
-| NEUTRAL | 100.0% | 98.8% | 99.4% |
-| PANIC | 93.7% | 92.5% | 93.1% |
-| **Overall** | **96.7%** | **96.7%** | **96.7%** |
+| COGNITIVE_DISSONANCE | 99.6% | 99.1% | 99.4% |
+| FOMO | 98.0% | 96.0% | 97.0% |
+| HERD | 99.6% | 96.4% | 98.0% |
+| LOSS_AVERSION | 99.4% | 97.9% | 98.6% |
+| NEUTRAL | 91.1% | 97.3% | 94.1% |
+| PANIC | 96.6% | 97.0% | 96.8% |
+| **Overall (Macro Avg / Acc)** | **97.4%** | **97.3%** | **97.3%** |
 
 ---
 
@@ -107,7 +107,7 @@ Then open: **http://localhost:5000**
 
 **Title:** *From Fear to Capitulation: A Behavioral Analysis of Investor Sentiment During the 2026 Iran War Period*
 
-**Core Finding:** Investor behavior during the 2026 Iran geopolitical crisis follows a predictable arc (FOMO → HERD → PANIC → LOSS_AVERSION) consistent with the Minsky Cycle, detectable with 96.67% accuracy from financial headline text alone.
+**Core Finding:** Investor behavior during the 2026 Iran geopolitical crisis follows a predictable arc (FOMO → HERD → PANIC → LOSS_AVERSION) consistent with the Minsky Cycle, detectable with 97.29% accuracy from financial headline text alone.
 
 ---
 

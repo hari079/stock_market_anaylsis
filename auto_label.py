@@ -11,31 +11,43 @@ import os
 import re
 import pandas as pd
 
-# Keywords for classifying general feeds if they fall into behavioral classes
-FOMO_KEYWORDS = ["fomo", "pile in", "piling in", "don't miss", "dont miss", "buying frenzy", "mania", "frenzy"]
-HERD_KEYWORDS = ["herd", "exodus", "investors flee", "fleeing", "mass exit", "dumping", "follow the crowd", "sheep-like"]
-LOSS_KEYWORDS = ["loss aversion", "drawdown", "refuse to sell", "holding onto", "hold tight", "holding bag", "unwilling to sell"]
-COG_KEYWORDS = ["cognitive dissonance", "shrugs off", "dismisses bad news", "defies", "despite", "ignores warning", "shrug off"]
-PANIC_KEYWORDS = ["panic", "bloodbath", "capitulate", "rout", "plunge", "crash", "sell-off", "selloff", "mass panic"]
+# Centralized keywords loading
+import json
+import re
 
-# Sentiment/action words that should NEVER be allowed in the NEUTRAL class to avoid label leakage
-NEUTRAL_EXCLUDE_KEYWORDS = [
-    "surge", "rally", "plunge", "crash", "fear", "panic", "fomo", "herd", 
-    "exodus", "flee", "bloodbath", "capitulate", "shrug", "defy", "despite", 
-    "refuse", "hold", "fears", "soar", "spike", "drop", "jump", "sell-off", 
-    "selloff", "mania", "frenzy", "rout", "bagholder", "dissonance", 
-    "aversion", "drawdown", "bubble", "fleeing", "shock", "warning", "crisis",
-    "war", "conflict", "strike", "strikes", "attack", "attacks", "threat", 
-    "threats", "threatens", "tension", "tensions", "escalate", "escalates", 
-    "escalation", "uncertainty", "halt", "halts", "vault", "vaults", 
-    "rise", "rises", "rising", "fall", "falls", "falling", "slide", 
-    "slides", "sliding", "rebound", "rebounds", "rebounding", "bounce", 
-    "bounces", "bouncing", "boost", "boosts", "boosting", "climb", 
-    "climbs", "climbing", "gain", "gains", "gaining", "loss", "losses", 
-    "losing", "grew", "grow", "growth", "growing", "higher", "lower", 
-    "peak", "peaks", "peaking", "bottom", "bottoms", "bottoming", 
-    "highs", "lows", "all-time", "all time"
-]
+KEYWORDS_PATH = "data/keywords.json"
+if os.path.exists(KEYWORDS_PATH):
+    with open(KEYWORDS_PATH, "r", encoding="utf-8") as f:
+        KEYWORDS = json.load(f)
+else:
+    KEYWORDS = {}
+
+FOMO_KEYWORDS = KEYWORDS.get("FOMO", [])
+HERD_KEYWORDS = KEYWORDS.get("HERD", [])
+LOSS_KEYWORDS = KEYWORDS.get("LOSS_AVERSION", [])
+COG_KEYWORDS = KEYWORDS.get("COGNITIVE_DISSONANCE", [])
+PANIC_KEYWORDS = KEYWORDS.get("PANIC", [])
+NEUTRAL_EXCLUDE_KEYWORDS = KEYWORDS.get("NEUTRAL_EXCLUDE", [])
+
+def contains_hedging(t):
+    t_lower = t.lower()
+    # Remove institutional references
+    t_clean = re.sub(r'\bhedge(?:s|d)?\s+funds?\b', '', t_lower)
+    t_clean = re.sub(r'\bhedge[-s]*funds?\b', '', t_clean)
+    t_clean = re.sub(r'\bhedgeye\b', '', t_clean)
+    
+    # Now check for hedging terms
+    for kw in ['hedging', 'hedged', 'hedging strategies', 'hedging strategy', 'hedging positions', 'hedging position']:
+        if kw in t_clean:
+            return True
+    if 'hedge against' in t_clean:
+        return True
+    
+    # Standalone 'hedge' as a word
+    if re.search(r'\bhedge(s|d)?\b', t_clean):
+        return True
+        
+    return False
 
 def classify_general_headline(headline):
     """
@@ -44,6 +56,8 @@ def classify_general_headline(headline):
     """
     h_lower = headline.lower()
     
+    if contains_hedging(headline):
+        return "LOSS_AVERSION"
     if any(k in h_lower for k in LOSS_KEYWORDS):
         return "LOSS_AVERSION"
     if any(k in h_lower for k in COG_KEYWORDS):

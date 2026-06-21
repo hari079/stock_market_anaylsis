@@ -27,3 +27,6 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Large database files
+data/analyst_ratings_processed.csv

@@ -1370,6 +1370,31 @@ textarea:focus, select:focus {
 .w-full { width: 100%; }
 .flex-fill { flex-grow: 1; }
 
+/* Interactive Word Selector for Correction */
+.clickable-word {
+    padding: 6px 10px;
+    border-radius: 8px;
+    background-color: var(--bg-input);
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--text-secondary);
+    transition: var(--transition-fast);
+    user-select: none;
+}
+.clickable-word:hover {
+    border-color: var(--border-hover);
+    color: var(--text-primary);
+    background-color: rgba(255, 255, 255, 0.02);
+}
+.clickable-word.selected {
+    background-color: var(--accent-purple);
+    color: white;
+    border-color: var(--accent-purple);
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.4);
+    font-weight: 600;
+}
+
 /* ==========================================================================
    RESPONSIVENESS & MEDIA QUERIES
    ========================================================================== */

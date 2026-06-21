@@ -88,7 +88,7 @@ class PipelineThread(threading.Thread):
         
         scripts = [
             ("01_scrape.py", "1. Crawling real-world news feeds"),
-            ("augment_data.py", "2. Augmenting and balancing the dataset"),
+            ("process_large_dataset.py", "2. Scaling and balancing the dataset (Benzinga historical)"),
             ("03_train_model.py", "3. Re-training the model (TF-IDF + LogReg)"),
             ("05_charts.py", "4. Regenerating publication-ready figures")
         ]
@@ -365,6 +365,78 @@ def add_dataset_sample():
         return jsonify({"status": "success", "message": f"Successfully added headline to dataset. It will be incorporated in the next training run."})
     except Exception as e:
         return jsonify({"error": f"Failed to write to files: {str(e)}"}), 500
+
+# API: Submit correction and add word to vocabulary
+@app.route('/api/feedback/correct', methods=['POST'])
+def correct_prediction():
+    data = request.get_json()
+    if not data or "headline" not in data or "label" not in data or "selected_words" not in data:
+        return jsonify({"error": "Missing 'headline', 'label', or 'selected_words' field"}), 400
+        
+    headline = data["headline"].strip()
+    label = data["label"].strip()
+    selected_words = [w.strip().lower() for w in data["selected_words"] if w.strip()]
+    
+    if not headline or not label:
+        return jsonify({"error": "Headline and label cannot be blank"}), 400
+        
+    if label not in THEORY_MAP:
+        return jsonify({"error": f"Invalid label '{label}'"}), 400
+        
+    try:
+        # 1. Update keywords.json
+        keywords_json_path = "data/keywords.json"
+        keywords = {}
+        if os.path.exists(keywords_json_path):
+            with open(keywords_json_path, "r", encoding="utf-8") as f:
+                keywords = json.load(f)
+                
+        # Make sure the label key exists in keywords
+        if label not in keywords:
+            keywords[label] = []
+            
+        added_words = []
+        for word in selected_words:
+            if word not in keywords[label]:
+                keywords[label].append(word)
+                added_words.append(word)
+                
+        # Save updated keywords.json
+        with open(keywords_json_path, "w", encoding="utf-8") as f:
+            json.dump(keywords, f, indent=2)
+            
+        # 2. Append the corrected headline to labelled headlines to train on it immediately
+        new_row = {
+            "source": "User Interface Correction",
+            "headline": headline,
+            "date": datetime.now().strftime("%Y-%m-%d"),
+            "query_source": "USER_CORRECTED",
+            "label": label
+        }
+        
+        # Append to labelled headlines
+        df_lbl = pd.DataFrame([new_row])
+        if os.path.exists(LABELLED_DATA_PATH):
+            df_lbl.to_csv(LABELLED_DATA_PATH, mode='a', header=False, index=False, encoding="utf-8")
+        else:
+            df_lbl.to_csv(LABELLED_DATA_PATH, index=False, encoding="utf-8")
+            
+        # Also append to raw headlines
+        raw_row = new_row.copy()
+        raw_row["label"] = ""
+        df_raw = pd.DataFrame([raw_row])
+        if os.path.exists(RAW_DATA_PATH):
+            df_raw.to_csv(RAW_DATA_PATH, mode='a', header=False, index=False, encoding="utf-8")
+        else:
+            df_raw.to_csv(RAW_DATA_PATH, index=False, encoding="utf-8")
+            
+        msg = f"Successfully added words {added_words} to '{label}' vocabulary." if added_words else "Vocabulary already contained the selected words."
+        return jsonify({
+            "status": "success",
+            "message": f"Correction saved! {msg} Labeled sample added to training set. Trigger retraining to apply changes."
+        })
+    except Exception as e:
+        return jsonify({"error": f"Failed to record correction: {str(e)}"}), 500
 
 # API: Run Retrain Pipeline
 @app.route('/api/pipeline/run', methods=['POST'])

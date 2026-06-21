@@ -266,6 +266,40 @@
                                             </div>
                                         </div>
                                     </div>
+                                    
+                                    <!-- Correction Button and Form -->
+                                    <div class="correction-trigger-row" style="margin-top: 20px; display: flex; justify-content: flex-end;">
+                                        <button class="btn btn-secondary btn-sm" id="btn-correct-me" style="width: 100%; justify-content: center; gap: 8px;">
+                                            <i class="fa-solid fa-pen-to-square"></i> Correct Prediction
+                                        </button>
+                                    </div>
+
+                                    <div class="correction-panel hidden" id="correction-panel" style="margin-top: 20px; padding: 16px; background-color: var(--bg-input); border-radius: 14px; border: 1px solid var(--border-color);">
+                                        <h4 style="font-family: var(--font-heading); font-size: 14px; font-weight: 600; margin-bottom: 8px; color: var(--text-primary);">Correct the Model</h4>
+                                        <p style="font-size: 11px; color: var(--text-secondary); margin-bottom: 12px; line-height: 1.4;">Click on the key word(s) in the headline that trigger this behavior:</p>
+                                        
+                                        <div id="correction-headline-words" class="word-selector-grid" style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; padding: 10px; background-color: var(--bg-card); border-radius: 10px; border: 1px solid var(--border-color); max-height: 120px; overflow-y: auto;">
+                                            <!-- Dynamically generated word spans -->
+                                        </div>
+                                        
+                                        <div class="form-group" style="margin-bottom: 16px;">
+                                            <label style="font-size: 11px; font-weight: 600; color: var(--text-secondary); display: block; margin-bottom: 6px;">True Behavioral Class</label>
+                                            <select id="correction-label-select" style="width: 100%; background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; padding: 10px; color: var(--text-primary); outline: none; font-size: 13px;">
+                                                <option value="FOMO">FOMO (Fear of Missing Out)</option>
+                                                <option value="HERD">HERD (Herd Behaviour)</option>
+                                                <option value="PANIC">PANIC (Panic Selling)</option>
+                                                <option value="LOSS_AVERSION">LOSS_AVERSION (Loss Aversion)</option>
+                                                <option value="COGNITIVE_DISSONANCE">COGNITIVE_DISSONANCE (Cognitive Dissonance)</option>
+                                                <option value="NEUTRAL">NEUTRAL (Factual Report)</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="flex-gap-sm" style="display: flex; gap: 10px;">
+                                            <button class="btn btn-primary btn-sm" id="btn-submit-correction" style="flex: 1; justify-content: center;">Submit Correction</button>
+                                            <button class="btn btn-secondary btn-sm" id="btn-cancel-correction" style="flex: 1; justify-content: center;">Cancel</button>
+                                        </div>
+                                        <div id="correction-message" class="alert hidden" style="margin-top: 12px; font-size: 12px; padding: 10px; border-radius: 10px;"></div>
+                                    </div>
                                 </div>
                             </div>
                             

@@ -66,7 +66,7 @@ def train_model():
             sublinear_tf=True
         )),
         ('classifier', LogisticRegression(
-            C=10.0,
+            C=1.0,
             max_iter=1000, 
             random_state=42
         ))

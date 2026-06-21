@@ -100,6 +100,15 @@ function setupSinglePredictor() {
     const resTheory = document.getElementById('result-theory');
     const probList = document.getElementById('prob-distribution-list');
     const dialRing = document.getElementById('dial-ring');
+    
+    // Correction elements
+    const btnCorrectMe = document.getElementById('btn-correct-me');
+    const correctionPanel = document.getElementById('correction-panel');
+    const correctionHeadlineWords = document.getElementById('correction-headline-words');
+    const correctionLabelSelect = document.getElementById('correction-label-select');
+    const btnSubmitCorrection = document.getElementById('btn-submit-correction');
+    const btnCancelCorrection = document.getElementById('btn-cancel-correction');
+    const correctionMessage = document.getElementById('correction-message');
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -183,6 +192,11 @@ function setupSinglePredictor() {
                 // Toggle display views
                 placeholder.classList.add('hidden');
                 display.classList.remove('hidden');
+                
+                // Store active headline and reset correction UI
+                currentHeadline = data.headline;
+                correctionPanel.classList.add('hidden');
+                btnCorrectMe.parentElement.classList.remove('hidden');
             } else {
                 alert(`Error: ${data.error || 'Failed to analyze headline'}`);
             }
@@ -192,6 +206,99 @@ function setupSinglePredictor() {
         } finally {
             btn.innerHTML = originalBtnHtml;
             btn.disabled = false;
+        }
+    });
+
+    // Correction Panel Event Handlers
+    let currentHeadline = "";
+    
+    btnCorrectMe.addEventListener('click', () => {
+        correctionPanel.classList.remove('hidden');
+        btnCorrectMe.parentElement.classList.add('hidden');
+        correctionMessage.className = 'alert hidden';
+        correctionHeadlineWords.innerHTML = '';
+        
+        const words = currentHeadline.split(/\s+/).filter(w => w.length > 0);
+        
+        words.forEach(word => {
+            const cleanWord = word.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?"']/g, "").trim().toLowerCase();
+            if (cleanWord.length === 0) return;
+            
+            const span = document.createElement('span');
+            span.className = 'clickable-word';
+            span.textContent = word;
+            span.setAttribute('data-word', cleanWord);
+            
+            span.addEventListener('click', () => {
+                span.classList.toggle('selected');
+            });
+            
+            correctionHeadlineWords.appendChild(span);
+        });
+        
+        // Match currently displayed predicted class label
+        const displayedClass = resLabel.textContent.replace(' ', '_').toUpperCase();
+        correctionLabelSelect.value = displayedClass;
+    });
+
+    btnCancelCorrection.addEventListener('click', () => {
+        correctionPanel.classList.add('hidden');
+        btnCorrectMe.parentElement.classList.remove('hidden');
+    });
+
+    btnSubmitCorrection.addEventListener('click', async () => {
+        const selectedSpans = correctionHeadlineWords.querySelectorAll('.clickable-word.selected');
+        const selectedWords = Array.from(selectedSpans).map(span => span.getAttribute('data-word'));
+        const targetLabel = correctionLabelSelect.value;
+        
+        if (selectedWords.length === 0) {
+            correctionMessage.textContent = "Please select at least one word from the headline.";
+            correctionMessage.className = "alert alert-error";
+            correctionMessage.classList.remove('hidden');
+            return;
+        }
+        
+        btnSubmitCorrection.disabled = true;
+        btnSubmitCorrection.textContent = "Submitting...";
+        
+        try {
+            const res = await fetch('/api/feedback/correct', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    headline: currentHeadline,
+                    selected_words: selectedWords,
+                    label: targetLabel
+                })
+            });
+            const data = await res.json();
+            
+            if (res.ok) {
+                correctionMessage.textContent = data.message;
+                correctionMessage.className = "alert alert-success";
+                correctionMessage.classList.remove('hidden');
+                
+                // Refresh dataset stats and explorer
+                loadExplorerData();
+                fetchSystemStatus();
+                
+                setTimeout(() => {
+                    correctionPanel.classList.add('hidden');
+                    btnCorrectMe.parentElement.classList.remove('hidden');
+                }, 3000);
+            } else {
+                correctionMessage.textContent = data.error || "Failed to submit correction.";
+                correctionMessage.className = "alert alert-error";
+                correctionMessage.classList.remove('hidden');
+            }
+        } catch (err) {
+            console.error(err);
+            correctionMessage.textContent = "Connection error.";
+            correctionMessage.className = "alert alert-error";
+            correctionMessage.classList.remove('hidden');
+        } finally {
+            btnSubmitCorrection.disabled = false;
+            btnSubmitCorrection.textContent = "Submit Correction";
         }
     });
 
