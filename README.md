@@ -10,7 +10,31 @@ A machine learning system that classifies financial news headlines into **6 beha
 
 This project scrapes live financial headlines from Google News, labels them using behavioral finance theory, trains a TF-IDF + Logistic Regression classifier, and serves a professional web dashboard for real-time behavioral sentiment analysis.
 
-**Model Accuracy: 97.29%** across 24,000 balanced headlines.
+**Model Accuracy: 97.15%** across 24,000 balanced headlines.
+
+---
+
+## 🖥️ Application Dashboard & Core Modules
+
+The system is equipped with a premium dark-themed web dashboard that enables real-time interaction, human feedback loops, retraining management, and batch pipeline processing:
+
+### 1. Main Sentiment Analysis & Human Correction Panel
+![Main Dashboard and Correction Panel](static/screenshots/dashboard_correction.png)
+* **Interactive Sentiment Analyzer**: Enter any geopolitical or financial headline to get real-time behavioral classifications. It presents the prediction confidence (74.8% FOMO for `"Wall Street Piles Into Defense Contractors After Escalation"`), its core meaning, and the underlying academic citation.
+* **Human-in-the-Loop "Correct the Model" Widget**: If a prediction requires adjustment, clicking the "Correct Prediction" button breaks the headline down into interactive, clickable word chips (e.g. highlighting `"Piles"`). Selecting the corrected class (e.g. `"HERD (Herd Behaviour)"`) dynamically appends new trigger words to `data/keywords.json` and inserts the corrected headline into the active training set for continuous improvement.
+
+### 2. Model Pipeline Management Console
+![Model Pipeline Console](static/screenshots/pipeline_console.png)
+* **Asynchronous Retraining Logs**: Triggers the scraping, dataset balancing, and model re-fitting pipeline from the UI. Progress logs from `01_scrape.py` (live RSS scraper), `process_large_dataset.py` (dataset scaling & blending), `03_train_model.py` (model training), and `05_charts.py` (publication-ready figure generation) are streamed live.
+
+### 3. Batch Headline Processor
+![Batch Headline Processing](static/screenshots/batch_predictor.png)
+* **Bulk Evaluation**: Paste semicolon-separated text lines or drag-and-drop CSV datasets to process large volumes of market headlines. Results show predicted behavioral biases, confidence ratings, and theory citations alongside a bulk report downloader.
+
+### 4. Dataset Explorer & Direct Augmentation
+![Dataset Explorer](static/screenshots/dataset_explorer.png)
+* **Corpus Explorer**: Query, filter, and inspect the balanced **24,000 headline training dataset** (4,000 samples per class) by query text or class labels.
+* **Direct Augmentation**: Add manual annotations directly to the active corpus using the side panel to boost precision for under-represented vocabulary.
 
 ---
 
@@ -93,13 +117,13 @@ Then open: **http://localhost:5000**
 
 | Class | Precision | Recall | F1-Score |
 |---|---|---|---|
-| COGNITIVE_DISSONANCE | 99.6% | 99.1% | 99.4% |
-| FOMO | 98.0% | 96.0% | 97.0% |
-| HERD | 99.6% | 96.4% | 98.0% |
-| LOSS_AVERSION | 99.4% | 97.9% | 98.6% |
-| NEUTRAL | 91.1% | 97.3% | 94.1% |
-| PANIC | 96.6% | 97.0% | 96.8% |
-| **Overall (Macro Avg / Acc)** | **97.4%** | **97.3%** | **97.3%** |
+| COGNITIVE_DISSONANCE | 99.3% | 99.4% | 99.3% |
+| FOMO | 98.5% | 96.3% | 97.3% |
+| HERD | 99.4% | 96.8% | 98.0% |
+| LOSS_AVERSION | 99.1% | 98.3% | 98.7% |
+| NEUTRAL | 89.9% | 97.5% | 93.5% |
+| PANIC | 97.6% | 94.8% | 96.1% |
+| **Overall (Macro Avg / Acc)** | **97.3%** | **97.1%** | **97.2%** |
 
 ---
 
@@ -107,7 +131,7 @@ Then open: **http://localhost:5000**
 
 **Title:** *From Fear to Capitulation: A Behavioral Analysis of Investor Sentiment During the 2026 Iran War Period*
 
-**Core Finding:** Investor behavior during the 2026 Iran geopolitical crisis follows a predictable arc (FOMO → HERD → PANIC → LOSS_AVERSION) consistent with the Minsky Cycle, detectable with 97.29% accuracy from financial headline text alone.
+**Core Finding:** Investor behavior during the 2026 Iran geopolitical crisis follows a predictable arc (FOMO → HERD → PANIC → LOSS_AVERSION) consistent with the Minsky Cycle, detectable with 97.15% accuracy from financial headline text alone.
 
 ---
 
